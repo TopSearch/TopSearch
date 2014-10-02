@@ -1,0 +1,26 @@
+_______________________ ::: TOP SEARCH ::: _______________________ 
+|                                                                 |
+| PARA UTILIZAR A APLICAÇÃO TOP SEARCH, É NECESSÁRIO EXTRAIR O    |
+| ARQUIVO "TOPSEARCH.ZIP" EM QUALQUER PASTA DO SEU COMPUTADOR, E  |
+| EXECUTAR O ARQUIVO "Executar TopSearch.bat".                    |
+|                                                                 |
+|_________________________________________________________________|
+|                                                                 |
+| EM CASO DE DÚVIDAS OU PROBLEMAS FAVOR ENTRE EM CONTATO CONOSCO  |
+| ATRAVÉS DO LINK: www.topsearch.com.br/contato                   |    
+|                                                                 |
+|_________________________________________________________________|
+|                                                                 |
+| PARA VOCÊ DESENVOLVEDOR O CÓDIGO FONTE DESTE APLICATIVO ESTÁ    |
+| DISPONÍVEL NO LINK: https://github.com/TopSearch/TopSearch.git  |
+|                                                                 |
+|_________________________________________________________________|
+|                                                                 |
+|      AGRADECEMOS PELA ATENÇÃO PARA COM O NOSSO PROJETO          |
+|                                                                 |
+| ATENCIOSAMENTE,                                                 |
+|                                                                 |
+|        FELIPE DE SOUSA FERREIRA, FELIPE HENRIQUE ZILIOTTI       |
+|                                                                 |
+|                                            www.topsearch.com.br |
+|_________________________________________________________________|

@@ -9,7 +9,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
@@ -17,8 +16,6 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -43,8 +40,9 @@ public class Frame_Login extends javax.swing.JFrame {
                 l.setLocationRelativeTo(null);
                 // SETA VISIBILIDADE
                 l.setVisible(true);
-                //URL url = this.getClass().getResource("/Imagens/favicon.png");
-                Image imagemTitulo = Toolkit.getDefaultToolkit().getImage("/Imagens/favicon.png");
+                // ICONE DA APLICAÇÃO
+                URL url = this.getClass().getResource("/Imagens/favicon.png");
+                Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
                 l.setIconImage(imagemTitulo);
             }
         });
@@ -85,6 +83,7 @@ public class Frame_Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Top Search - Busca Social Gratuita");
+        setIconImages(null);
         setResizable(false);
         setType(java.awt.Window.Type.POPUP);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -235,7 +234,8 @@ public class Frame_Login extends javax.swing.JFrame {
         );
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setIcon(new javax.swing.ImageIcon("D:\\Documentos\\NetBeansProjects\\TopSearch - Cópia\\src\\Imagens\\logotipo.png")); // NOI18N
+		URL url2 = this.getClass().getResource("/Imagens/logotipo.png");
+        jLabel4.setIcon(new javax.swing.ImageIcon(url2)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

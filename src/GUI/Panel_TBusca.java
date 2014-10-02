@@ -40,12 +40,12 @@ public class Panel_TBusca extends javax.swing.JPanel {
     private JLabel profile;
     private Status status;
     private String s1 = "", s2 = "", s3 = "", temp = "";
-    private int i = 0;
+    private int i = 0, qtd_favorites_user = 0, qtd_friends = 0, qtd_follow = 0, qtd_retweets = 0, qtd_view = 0, qtd_favorites_tweet = 0;
     private QueryResult resultadoBusca = null;
     private List<Status> listaTweets;
     private Query query;
     private Iterator<Status> itTweets;
-    private Integer qtdTw, qtdRt;
+    private Integer qtdTw;
 
     // CONSTRUTOR
     public Panel_TBusca(Twitter t, User eu, String palavra_chave, Usuario usuarioLogado, String s1, String s2, String s3) {
@@ -57,7 +57,6 @@ public class Panel_TBusca extends javax.swing.JPanel {
         this.s2 = s2;
         this.s3 = s3;
         this.qtdTw = 0;
-        this.qtdRt = 0;
         initComponents();
         recuperarDados();
     }
@@ -104,6 +103,13 @@ public class Panel_TBusca extends javax.swing.JPanel {
                 itTweets = listaTweets.iterator();
                 // ZERA O CONTADOR DE TWEETS.
                 i = 0;
+                qtd_favorites_user = 0;
+                qtd_friends = 0;
+                qtd_follow = 0;
+                qtd_retweets = 0;
+                qtd_view = 0;
+                qtd_favorites_tweet = 0;
+
                 // ENQUANTO EXISTIR OBJETOS NA LISTA
                 while (itTweets.hasNext()) {
                     // INCREMENTA CONTADOR
@@ -220,7 +226,7 @@ public class Panel_TBusca extends javax.swing.JPanel {
                 i++;
                 // PEGA O PROXIMO TWEET (STATUS)
                 status = (Status) itTweets.next();
-                qtdRt += status.getRetweetCount();
+
                 // CRIA UM PANEL
                 pane = new JPanel(new FlowLayout(FlowLayout.LEFT));
                 // CRIA SETA LINHA PARA O PANEL
@@ -248,9 +254,12 @@ public class Panel_TBusca extends javax.swing.JPanel {
                 // CAMPO RESPONSÁVEL POR APRESENTAR AS INFORMAÇÕES AO PASSAR O MOUSE NA IMAGEM DO USUARIO DO TWEET
                 String hint = "<HTML>";
                 hint += "<h3><marquee>Informação referente este Post</h3>" + "<BR>";
+                qtd_view += status.getUser().getListedCount() + 1;
                 hint += "<B>Quantidade de visualizações deste Post: </B>" + status.getUser().getListedCount() + 1 + "<BR>";
+                qtd_favorites_tweet += status.getFavoriteCount();
                 hint += "<B>Quantidade de favoritos deste Post: </B>" + status.getFavoriteCount() + "<BR>";
                 if (status.getRetweetedStatus() != null) {
+                    qtd_retweets += status.getRetweetCount();
                     hint += "<B>Quantidade de Retweets: </B>" + status.getRetweetCount() + "<BR>";
                     hint += "<B>- Nome do usuário Post principal: </B>" + status.getRetweetedStatus().getUser().getName() + "- @" + status.getRetweetedStatus().getUser().getScreenName() + "<BR>";
                     hint += "<B>- Post principal criado em: </B> " + (status.getRetweetedStatus().getCreatedAt().getDay() + 1) + "/" + (status.getRetweetedStatus().getCreatedAt().getMonth() + 1) + "/" + (1900 + status.getRetweetedStatus().getCreatedAt().getYear()) + " " + status.getRetweetedStatus().getCreatedAt().getHours() + ":" + status.getRetweetedStatus().getCreatedAt().getMinutes() + ":" + status.getRetweetedStatus().getCreatedAt().getSeconds() + "<BR>";
@@ -261,8 +270,11 @@ public class Panel_TBusca extends javax.swing.JPanel {
                 hint += "<h3><marquee>Informação referente ao usuário do Tweet</h3>" + "<BR>";
                 hint += "<B>Nome do usuário: </B>" + status.getUser().getName() + " - @" + status.getUser().getScreenName() + "<BR>";
                 hint += "<B>Usuário do Twitter deste: </B> " + (status.getUser().getCreatedAt().getDay() + 1) + "/" + (status.getUser().getCreatedAt().getMonth() + 1) + "/" + (1900 + status.getUser().getCreatedAt().getYear()) + "<BR>";
+                qtd_follow += status.getUser().getFollowersCount();
                 hint += "<B>Quantidade de seguidores: </B>" + status.getUser().getFollowersCount() + "<BR>";
+                qtd_friends += status.getUser().getFriendsCount();
                 hint += "<B>Quantidade de amigos: </B>" + status.getUser().getFriendsCount() + "<BR>";
+                qtd_favorites_user += status.getUser().getFavouritesCount();
                 hint += "<B>Quantidade de favoritos: </B>" + status.getUser().getFavouritesCount() + "<BR>";
 
                 if (status.getUser().getLang() != null) {
@@ -403,8 +415,25 @@ public class Panel_TBusca extends javax.swing.JPanel {
         // APRESENTA ALGUMAS INFORMAÇÕES GERAIS DA BUSCA REALIZADA
         String mensg = "";
         mensg += "Posts encontrados: " + listaTweets.size();
-        mensg += "\nQuantidade Total de Retweets da Palavra-Chave Pesquisada: " + qtdRt;
-        mensg += "\nQuantidade Total de Tweets da Palavra-Chave Pesquisada: " + listaTweets.size();
+        if (qtd_retweets != 0) {
+            mensg += "\nQuantidade Total de Retweets: " + qtd_retweets;
+        }
+        if (qtd_favorites_tweet != 0) {
+            mensg += "\nQuantidade de Favoritos dos Tweets: " + qtd_favorites_tweet;
+        }
+        if (qtd_view != 0) {
+            mensg += "\nQuantidade de Visualizações dos Tweets: " + qtd_view;
+        }
+        if (qtd_follow != 0) {
+            mensg += "\nQuantidade de Seguidores dos Usuários: " + qtd_follow;
+        }
+        if (qtd_friends != 0) {
+            mensg += "\nQuantidade de Amigos dos Usuários: " + qtd_friends;
+        }
+        if (qtd_favorites_user != 0) {
+            mensg += "\nQuantidade de Favoritos dos Usuários: " + qtd_favorites_user;
+        }
+
         JOptionPane.showMessageDialog(null, mensg);
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -39,7 +39,7 @@ public class Panel_FBusca extends javax.swing.JPanel {
     private JLabel profile;
     private Post status6;
     private String s1 = "", s2 = "", s3 = "", temp = "";
-    private int i6 = 0;
+    private int i = 0, qtd_likes = 0, qtd_comments = 0, sexo_M = 0, sexo_F = 0, sexo_N = 0;
     private ResponseList<Post> resultadoBusca6 = null;
     private List<Post> listaPosts;
     private String query;
@@ -62,7 +62,7 @@ public class Panel_FBusca extends javax.swing.JPanel {
     public void recuperarDados() throws FacebookException {
         // SETA A URL DA FOTO DO PERFIL DO FACEBOOK DO USUÁRIO LOGADO 
         urlfoto = String.valueOf(f.getPictureURL());
-        //SETA NO LABEL A URL DA FOTO
+        // SETA NO LABEL A URL DA FOTO
         jL_Foto.setIcon(new javax.swing.JLabel() {
             @Override
             public javax.swing.Icon getIcon() {
@@ -131,7 +131,6 @@ public class Panel_FBusca extends javax.swing.JPanel {
                             // OBTEM A QUINTA MENSAGEM
                             interacao = msg2.getMensagem5();
                         }
-
                         try {
                             // MÉTODO PARA COMENTAR UM POST, PASSANDO O ID DO POST E A MENSAGEM DO COMENTÁRIO
                             f.commentPost(status6.getId(), interacao);
@@ -188,11 +187,16 @@ public class Panel_FBusca extends javax.swing.JPanel {
         return locale;
     }
 
-// RESPONSÁVEL POR OBTER AS MENSAGENS RESULTANTES DA BUSCA REALIZADA
+    // RESPONSÁVEL POR OBTER AS MENSAGENS RESULTANTES DA BUSCA REALIZADA
     public void carregaTimeline() {
         try {
             // SETA O CONTADOR IGUAL A ZERO
-            i6 = 0;
+            i = 0;
+            sexo_F = 0;
+            sexo_M = 0;
+            sexo_N = 0;
+            qtd_comments = 0;
+            qtd_likes = 0;
             // REMOVE TODOS OS POSTS DO PANEL
             jP_Tweets.removeAll();
 
@@ -246,9 +250,9 @@ public class Panel_FBusca extends javax.swing.JPanel {
             // SE EXISTIR RESULTADOS DA BUSCA
             if (resultadoBusca6.size() != 0) {
                 // ENQUANTO EXISTIR OBJETOS NA LISTA
-                while (itPosts.hasNext() && i6 <= Integer.parseInt(s3)) {
+                while (itPosts.hasNext() && i <= Integer.parseInt(s3)) {
                     // INCREMENTA CONTADOR DE POSTS
-                    i6++;
+                    i++;
                     // PEGO O PROXIMO POST (STATUS)
                     status6 = itPosts.next();
                     // CRIA UM PANEL
@@ -278,7 +282,9 @@ public class Panel_FBusca extends javax.swing.JPanel {
                     // CAMPO RESPONSÁVEL POR APRESENTAR AS INFORMAÇÕES AO PASSAR O MOUSE NA IMAGEM DO USUARIO DO POST
                     String hint = "<HTML>";
                     hint += "<h3><marquee>Informação referente este Post</h3>" + "<BR>";
+                    qtd_likes += status6.getLikes().size();
                     hint += "<B>Quantidade de Curtidas deste Post: </B>" + status6.getLikes().size() + "<BR>";
+                    qtd_comments += status6.getComments().size();
                     hint += "<B>Quantidade de Comentários deste Post: </B>" + status6.getComments().size() + "<BR>";
                     if (status6.getStatusType() != null) {
                         hint += "<B>Tipo deste Post: </B>" + status6.getStatusType() + "<BR>";
@@ -300,9 +306,11 @@ public class Panel_FBusca extends javax.swing.JPanel {
                             if (sexo.equals("female")) {
                                 sexo = "Feminino";
                                 hint += "<B>Sexo: </B>" + sexo + "<BR>";
+                                sexo_F += 1;
                             } else if (sexo.equals("male")) {
                                 sexo = "Masculino";
                                 hint += "<B>Sexo: </B>" + sexo + "<BR>";
+                                sexo_M += 1;
                             } else {
                                 hint += "";
                             }
@@ -362,7 +370,7 @@ public class Panel_FBusca extends javax.swing.JPanel {
                 }
             }
             // MOSTRA A QUANTIDADE DE POSTS CARREGADOS
-            jL_Novos.setText((i6) + " posts carregados");
+            jL_Novos.setText((i) + " posts carregados");
             // SETA A LOCALIZAÇÃO DA BARRA DE ROLAGEM
             jScrollPane2.getVerticalScrollBar().setValue(0);
         }// EM CASO DE ERRO, MOSTRA O ERRO E A MENSAGEM
@@ -458,7 +466,23 @@ public class Panel_FBusca extends javax.swing.JPanel {
         // APRESENTA ALGUMAS INFORMAÇÕES GERAIS DA BUSCA REALIZADA
         String mensg = "";
         mensg += "Posts encontrados: " + resultadoBusca6.size();
-        mensg += "\nQuantidade de Posts com a Palavra-Chave Pesquisada: " + listaPosts.size();
+        if (qtd_likes != 0) {
+            mensg += "\nQuantidade de Curtidas: " + qtd_likes;
+        }
+        if (qtd_comments != 0) {
+            mensg += "\nQuantidade de Comentários: " + qtd_comments;
+        }
+        if (sexo_F != 0) {
+            mensg += "\nQuantidade de Postagens por Mulheres: " + sexo_F;
+        }
+        if (sexo_M != 0) {
+            mensg += "\nQuantidade de Postagens por Homens: " + sexo_M;
+        }
+        sexo_N = (resultadoBusca6.size() - sexo_F - sexo_M);
+        if (sexo_N != 0) {
+            mensg += "\nQuantidade de Postagens sem Definição do Sexo: " + sexo_N;
+        }
+
         JOptionPane.showMessageDialog(null, mensg);
     }//GEN-LAST:event_jButton1ActionPerformed
 
